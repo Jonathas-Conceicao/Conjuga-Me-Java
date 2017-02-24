@@ -50,17 +50,9 @@ public class Linux{
     System.out.printf("%" + (this.limite - escrito) + "c",' ');
   }
 
-  private int length(String s){
-    int n;
-    String l = new String(s);
-    n = l.length();
-    l = null;
-    return n;
-  }
-
   private int printWithLength(String s){
     System.out.print(s);
-    return length(s);
+    return (s.length());
   }
 
   private String getPerson(int n){
@@ -93,17 +85,41 @@ public class Linux{
   }
 
   private void printGerundio(){
-    if(this.v.getGerundio().getSecond())
-      System.out.print("Gerúndio:" + this.inregularColor + this.v.getGerundio().getFirst() + this.defaultColor);
-    else
-      System.out.print("Gerúndio:" + this.regularColor + this.v.getGerundio().getFirst() + this.defaultColor);
+    int k;
+    System.out.print("Gerúndio: ");
+    for (k = 0; k < this.v.getGerundio().getSize(); k++) {
+      if (k > 0) {
+        System.out.print(" / ");
+      }
+      if(this.v.getGerundio().getSecond(k)){
+        System.out.print(this.inregularColor);
+        System.out.print(this.v.getGerundio().getFirst(k));
+        System.out.print(this.defaultColor);
+      }else{
+        System.out.print(this.regularColor);
+        System.out.print(this.v.getGerundio().getFirst(k));
+        System.out.print(this.defaultColor);
+      }
+    }
   }
 
   private void printParticipioPassado(){
-    if(this.v.getParticipioPassado().getSecond())
-      System.out.print("Particípio Passado:" + this.inregularColor + this.v.getParticipioPassado().getFirst() + this.defaultColor);
-    else
-      System.out.print("Particípio Passado:" + this.regularColor + this.v.getParticipioPassado().getFirst() + this.defaultColor);
+    int k;
+    System.out.print("Particípio Passado: ");
+    for (k = 0; k < this.v.getParticipioPassado().getSize(); k++) {
+      if (k > 0) {
+        System.out.print(" / ");
+      }
+      if(this.v.getParticipioPassado().getSecond(k)){
+        System.out.print(this.inregularColor);
+        System.out.print(this.v.getParticipioPassado().getFirst(k));
+        System.out.print(this.defaultColor);
+      }else{
+        System.out.print(this.regularColor);
+        System.out.print(this.v.getParticipioPassado().getFirst(k));
+        System.out.print(this.defaultColor);
+      }
+    }
   }
 
   private void printIndicativo(){
@@ -123,16 +139,20 @@ public class Linux{
       for (j = 0; j < 3 ;j++) {
         offset = 0;
         offset += this.printWithLength(this.getPerson(i));
-        if(this.v.getIndicativo()[j][i].getSecond()){
-          System.out.print(this.inregularColor);
-          offset += this.printWithLength(this.v.getIndicativo()[j][i].getFirst());
-          System.out.print(this.defaultColor);
-        }else{
-          System.out.print(this.regularColor);
-          offset += this.printWithLength(this.v.getIndicativo()[j][i].getFirst());
-          System.out.print(this.defaultColor);
+        for (k = 0; k < this.v.getIndicativo()[j][i].getSize(); k++) {
+          if (k > 0) {
+            offset += this.printWithLength(" / ");
+          }
+          if(this.v.getIndicativo()[j][i].getSecond(k)){
+            System.out.print(this.inregularColor);
+            offset += this.printWithLength(this.v.getIndicativo()[j][i].getFirst(k));
+            System.out.print(this.defaultColor);
+          }else{
+            System.out.print(this.regularColor);
+            offset += this.printWithLength(this.v.getIndicativo()[j][i].getFirst(k));
+            System.out.print(this.defaultColor);
+          }
         }
-        // offset += this.length(this.v.getIndicativo()[j][i].getFirst());
         printTab(offset);
       }
       System.out.print("\n");
@@ -159,9 +179,8 @@ public class Linux{
             offset += this.printWithLength(this.v.getIndicativo()[j][i].getFirst(k));
             System.out.print(this.defaultColor);
           }
-          // offset += this.length(this.v.getIndicativo()[j][i].getFirst());
-          printTab(offset);
         }
+        printTab(offset);
       }
       System.out.print("\n");
     }
@@ -187,6 +206,9 @@ public class Linux{
         offset += this.printWithLength(this.getConjuncaoConjuntivo(j));
         offset += this.printWithLength(this.getPerson(i));
         for (k = 0; k < this.v.getConjuntivo()[j][i].getSize(); k++) {
+          if (k > 0) {
+            offset += this.printWithLength(" / ");
+          }
           if(this.v.getConjuntivo()[j][i].getSecond(k)){
             System.out.print(this.inregularColor);
             offset += printWithLength(this.v.getConjuntivo()[j][i].getFirst(k));
@@ -222,6 +244,9 @@ public class Linux{
     printTab(offset);
     System.out.print("para ");
     for (k = 0; k < this.v.getImperativo()[2][0].getSize(); k++) {
+      if (k > 0) {
+        offset += this.printWithLength(" / ");
+      }
       if(this.v.getImperativo()[2][0].getSecond(k)){
         System.out.print(this.inregularColor +
                          this.v.getImperativo()[2][0].getFirst(k) +
@@ -244,6 +269,9 @@ public class Linux{
           }
         }
         for (k = 0; k < this.v.getImperativo()[j][i].getSize(); k++) {
+          if (k > 0) {
+            offset += this.printWithLength(" / ");
+          }
           if(this.v.getImperativo()[j][i].getSecond(k)){
             System.out.print(this.inregularColor);
             offset += printWithLength(this.v.getImperativo()[j][i].getFirst(k));

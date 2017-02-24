@@ -1,9 +1,15 @@
 package interpreter;
 
 import java.io.*;
+
 import java.net.URL;
 import java.net.MalformedURLException;
+
 import storage.TupleSB;
+
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Verbo implements Serializable {
   private transient URL link = null;
@@ -14,6 +20,7 @@ public class Verbo implements Serializable {
   private TupleSB[][] conjuntivo = null;
   private TupleSB[][] imperativo = null;
   private Boolean flag = true;
+  private static final String[] separadores = new String[] {" /", "&hArr;", "&asymp;"};
 
   public Verbo(String verbo){
     BufferedReader reader;
@@ -40,11 +47,12 @@ public class Verbo implements Serializable {
       this.verbo.addConju(verbo, false);
       this.flag = false;
     }catch(MalformedURLException e){
-
+      e.printStackTrace();
       //TODO:Handle Erros
 
     }catch(IOException e){
 
+      e.printStackTrace();
       //TODO:Handle Erros
 
     }finally{
@@ -86,7 +94,7 @@ public class Verbo implements Serializable {
         throw new InvalidVerbException();
       }
     }catch(IOException e){
-
+      e.printStackTrace();
       //TODO:Handle Erros
 
     }finally{
@@ -100,21 +108,26 @@ public class Verbo implements Serializable {
     try{
       line = walkOnFile(reading, "    <span class=\"gerundio\">Ger");
       ret[0] = new TupleSB();
-      ret[0].addConju(line.substring(45,line.length() - 10).replaceAll("\\s+",""), false);
+      for(String text : this.splitFromSeparadores(this.dropTdClass(line, "</span>(.*)</td>"))){
+        if(text.contains("<span class=\"irreg\">")){
+          ret[0].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+        }else{
+          ret[0].addConju(text.replaceAll(" ", ""),false);
+        }
+      }
 
       line = walkOnFile(reading, "    <span class=\"gerundio\">Partic");
-
       ret[1] = new TupleSB();
-      for(String s : line.substring(55, line.length() - 10).replaceAll("\\s+","").split(";")){
-        if (s.contains("<span class=\"irreg\">")) {
-          ret[1].addConju(s.replaceAll("\\<.*\\>", ""), true);
+      for(String text : this.splitFromSeparadores(this.dropTdClass(line, "</span>(.*)</td>"))){
+        if(text.contains("<span class=\"irreg\">")){
+          ret[1].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
         }else{
-          ret[1].addConju(s, false);
+          ret[1].addConju(text.replaceAll(" ", ""),false);
         }
       }
 
     }catch(IOException e){
-
+      e.printStackTrace();
       //TODO: Handle Erros
 
     }finally{
@@ -131,12 +144,13 @@ public class Verbo implements Serializable {
       for(j = 0; j < 6; j++){
         for (i = 0; i < 3 ; i++) {
           line = walkOnFile(reading,"      <td class=\"output\">");
-          if (line.contains("<span class=\"irreg\">")) {
-            verbos[i][j] = new TupleSB();
-            verbos[i][j].addConju(line.substring(45, line.length() - 12).replaceAll("\\s+",""), true);
-          }else{
-            verbos[i][j] = new TupleSB();
-            verbos[i][j].addConju(line.substring(25, line.length() - 5).replaceAll("\\s+",""), false);
+          verbos[i][j] = new TupleSB();
+          for(String text : this.splitFromSeparadores(this.dropTdClass(line))){
+            if(text.contains("<span class=\"irreg\">")){
+              verbos[i][j].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+            }else{
+              verbos[i][j].addConju(text.replaceAll(" ", ""),false);
+            }
           }
         }
       }
@@ -144,17 +158,18 @@ public class Verbo implements Serializable {
       for(j = 0; j < 6 ; j++){
         for (i = 3; i < 6; i++){
           line = walkOnFile(reading,"      <td class=\"output\">");
-          if (line.contains("<span class=\"irreg\">")) {
-            verbos[i][j] = new TupleSB();
-            verbos[i][j].addConju(line.substring(45, line.length() - 12).replaceAll("\\s+",""), true);
-          }else{
-            verbos[i][j] = new TupleSB();
-            verbos[i][j].addConju(line.substring(25, line.length() - 5).replaceAll("\\s+",""), false);
+          verbos[i][j] = new TupleSB();
+          for(String text : this.splitFromSeparadores(this.dropTdClass(line))){
+            if(text.contains("<span class=\"irreg\">")){
+              verbos[i][j].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+            }else{
+              verbos[i][j].addConju(text.replaceAll(" ", ""),false);
+            }
           }
         }
       }
     }catch(IOException e){
-
+      e.printStackTrace();
       // TODO: Handle error
 
     }
@@ -169,17 +184,18 @@ public class Verbo implements Serializable {
       for(j = 0; j < 6; j++) {
         for (i = 0; i < 3 ; i++) {
           line = walkOnFile(reading,"      <td class=\"output\">");
-          if (line.contains("<span class=\"irreg\">")) {
-            verbos[i][j] = new TupleSB();
-            verbos[i][j].addConju(line.substring(45, line.length() - 12).replaceAll("\\s+",""), true);
-          }else{
-            verbos[i][j] = new TupleSB();
-            verbos[i][j].addConju(line.substring(25, line.length() - 5).replaceAll("\\s+",""), false);
+          verbos[i][j] = new TupleSB();
+          for(String text : this.splitFromSeparadores(this.dropTdClass(line))){
+            if(text.contains("<span class=\"irreg\">")){
+              verbos[i][j].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+            }else{
+              verbos[i][j].addConju(text.replaceAll(" ", ""),false);
+            }
           }
         }
       }
     }catch(IOException e){
-
+      e.printStackTrace();
       // TODO: Handle error
 
     }
@@ -198,46 +214,50 @@ public class Verbo implements Serializable {
       verbos[1][0] = new TupleSB();
       verbos[1][0].addConju("",true);
       line = walkOnFile(reading,"      <td colspan=\"2\" class=\"output\" style=\"width: 33%; padding-left: 6%\"><span style=\"color: #2e4fe5;\">para </span> ");
-      if (line.contains("<span class=\"irreg\">")) {
-        verbos[2][0] = new TupleSB();
-        verbos[2][0].addConju(line.substring(138, line.length() - 57).replaceAll("\\s+",""), true);
-      }else{
-        verbos[2][0] = new TupleSB();
-        verbos[2][0].addConju(line.substring(117, line.length() - 45).replaceAll("\\s+",""), false);
+      verbos[2][0] = new TupleSB();
+      for(String text : this.splitFromSeparadores(this.dropTdClass(line, "<td.*</span>(.*)<span style="))){
+        if(text.contains("<span class=\"irreg\">")){
+          verbos[2][0].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+        }else{
+          verbos[2][0].addConju(text.replaceAll(" ", ""),false);
+        }
       }
       for (i = 1; i < 6; i++) {
         /*Reading Afirmativo*/
-        line = walkOnFile(reading,"      <td colspan=\"2\" class=\"output\" style=\"width: 33%; padding-left: 8%\">");
-        if (line.contains("<span class=\"irreg\">")) {
-          verbos[0][i] = new TupleSB();
-          verbos[0][i].addConju(this.findVerb(line, 94).replaceAll("\\s+",""), true);
-        }else{
-          verbos[0][i] = new TupleSB();
-          verbos[0][i].addConju(this.findVerb(line, 74).replaceAll("\\s+",""), false);
+        line = walkOnFile(reading,"      <td colspan=\"2\" class=\"output\"");
+        verbos[0][i] = new TupleSB();
+        for(String text : this.splitFromSeparadores(this.dropTdClass(line, "<td.*%\">(.*)<span style="))){
+          if(text.contains("<span class=\"irreg\">")){
+            verbos[0][i].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+          }else{
+            verbos[0][i].addConju(text.replaceAll(" ", ""),false);
+          }
         }
-
         /*Reading Negativo*/
-        line = walkOnFile(reading,"      <td colspan=\"2\" class=\"output\" style=\"width: 33%; padding-left: 8%\"><span style=\"color: #2e4fe5;\">não ");
-        if (line.contains("</span><span class=\"irreg\">")) {
-          verbos[1][i] = new TupleSB();
-          verbos[1][i].addConju(this.findVerb(line, 135).replaceAll("\\s+",""), true);
-        }else{
-          verbos[1][i] = new TupleSB();
-          verbos[1][i].addConju(this.findVerb(line, 115).replaceAll("\\s+",""), false);
+        line = walkOnFile(reading,"      <td colspan=\"2\" class=\"output\"");
+        verbos[1][i] = new TupleSB();
+        for(String text : this.splitFromSeparadores(this.dropTdClass(line, "<td.*>.*<span style.*>n.o..?.?</span>(.*)<span style"))){
+          if(text.contains("<span class=\"irreg\">")){
+            verbos[1][i].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+          }else{
+            verbos[1][i].addConju(text.replaceAll(" ", ""),false);
+          }
         }
 
         /*Reading Infinitivo Pessoal*/
-        line = walkOnFile(reading,"      <td colspan=\"2\" class=\"output\" style=\"width: 33%; padding-left: 6%\"><span style=\"color: #2e4fe5;\">para </span> ");
-        if (line.contains("</span><span class=\"irreg\">")) {
-          verbos[2][i] = new TupleSB();
-          verbos[2][i].addConju(this.findVerb(line, 138).replaceAll("\\s+",""), true);
-        }else{
-          verbos[2][i] = new TupleSB();
-          verbos[2][i].addConju(this.findVerb(line, 117).replaceAll("\\s+",""), false);
+        line = walkOnFile(reading,"      <td colspan=\"2\" class=\"output\"");
+        verbos[2][i] = new TupleSB();
+        for(String text : this.splitFromSeparadores(this.dropTdClass(line, "<td.*>(.*)<span style="))){
+          if(text.contains("<span class=\"irreg\">")){
+            verbos[2][i].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+          }else{
+            verbos[2][i].addConju(text.replaceAll(" ", ""),false);
+          }
         }
       }
     }catch(IOException e){
       verbos = null;
+      e.printStackTrace();
       //TODO: Handle Erros
 
     }finally{
@@ -246,22 +266,46 @@ public class Verbo implements Serializable {
     return verbos;
   }
 
-  private String findVerb(String line, int baseSize){
-    String s = line.substring(baseSize);
-    int i = 0;
-    char c;
-    do{
-      i++;
-      c = s.charAt(i);
-    }while(c != '<');
-    return s.substring(0,i);
-  }
-
   private String walkOnFile(BufferedReader reading, String term) throws IOException {
     String line;
     do{
       line = reading.readLine();
     }while(!line.startsWith(term));
     return line;
+  }
+
+  private String dropTdClass(String s){
+    Pattern pattern = Pattern.compile("<td class=\".*?\">(.*?)</td>");
+    Matcher matcher = pattern.matcher(s);
+    if (matcher.find()){
+      return matcher.group(1);
+    }
+    return "";
+  }
+
+  private String dropTdClass(String s, String regex){
+    Pattern pattern = Pattern.compile(regex);
+    Matcher matcher = pattern.matcher(s);
+    if (matcher.find()){
+      return matcher.group(1);
+    }
+    return "";
+  }
+
+  private ArrayList<String> splitFromSeparadores(String text){
+    ArrayList<String> ret = new ArrayList<String>(2);
+    Boolean flag = true;
+    for(String s: this.separadores){
+      if (text.contains(s)) {
+        for(String ss: text.split(s)){
+          ret.add(ss);
+        }
+        flag = false;
+      }
+    }
+    if (flag) {
+      ret.add(text);
+    }
+    return ret;
   }
 }

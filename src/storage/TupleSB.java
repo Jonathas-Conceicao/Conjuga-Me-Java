@@ -19,6 +19,7 @@ public class TupleSB implements Serializable{
   public void addConju(String s, Boolean b){
     this.fst.add(s);
     this.snd.add(b);
+    return;
   }
 
   public String getFirst(){
@@ -38,6 +39,6 @@ public class TupleSB implements Serializable{
   }
 
   public int getSize(){
-    return this.indexFst;
+    return this.fst.size();
   }
 }
