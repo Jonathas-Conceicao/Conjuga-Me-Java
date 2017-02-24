@@ -24,7 +24,7 @@ public class VerboStorage{
     FileOutputStream fileOut = null;
     ObjectOutputStream out = null;
     try{
-      fileOut = new FileOutputStream(this.path + v.getVerbo().getFirst() + ".ser");
+      fileOut = new FileOutputStream(this.path + v.getVerbo().getFirst(0) + ".ser");
       // fileOut = new FileOutputStream(this.path + v.getVerbo().getFirst() + ".ser");
       out = new ObjectOutputStream(fileOut);
       out.writeObject(v);
@@ -45,7 +45,6 @@ public class VerboStorage{
     ObjectInputStream in = null;
     try{
       fileIn = new FileInputStream(this.path + v + ".ser");
-      // fileIn = new FileInputStream(this.path + v + ".ser");
       in = new ObjectInputStream(fileIn);
       verbo = (Verbo) in.readObject();
 
