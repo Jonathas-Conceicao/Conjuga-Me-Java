@@ -1,8 +1,11 @@
 package printer;
 
 import interpreter.Verbo;
-import storage.TupleSB;
+import storage.Conjugation;
 
+/**
+ *  Class with the methods to output the verbs on linux terminal.
+ */
 public class Linux{
 
   private String defaultColor = null;
@@ -13,10 +16,6 @@ public class Linux{
 
   public Linux(Verbo in){
     this(in,(char) 27 + "[0m", (char) 27 + "[1;36m", (char) 27 + "[91m");
-    // this.v = in;
-    // this.defaultColor = (char) 27 + "[0m";
-    // this.regularColor = (char) 27 + "[1;36m";
-    // this.inregularColor = (char) 27 + "[91m";
   }
   public Linux(Verbo in, String def, String reg, String inreg){
     this.v = in;
@@ -25,11 +24,14 @@ public class Linux{
     this.inregularColor = inreg;
   }
 
+  /**
+   * Print conjugations in Indicativo, Conjuntivo e Imperativo forms.
+   */
   public void print(){
 
     if(this.v.isValid()){
       System.out.println("Conjuga-Me: Conjugação do verbo " +
-      this.regularColor + this.v.getVerbo().getFirst() + this.defaultColor);
+      this.regularColor + this.v.getVerbo().getFirst(0) + this.defaultColor);
       this.printGerundio();
       System.out.print("\t");
       this.printParticipioPassado();
@@ -40,7 +42,7 @@ public class Linux{
       this.printImperativo();
     }else{
       System.out.println("Verbo " +
-                         this.inregularColor + this.v.getVerbo().getFirst() + this.defaultColor +
+                         this.inregularColor + this.v.getVerbo().getFirst(0) + this.defaultColor +
                          " não foi encontrado.");
     }
 

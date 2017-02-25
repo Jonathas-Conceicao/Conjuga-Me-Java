@@ -1,27 +1,38 @@
 package interpreter;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 import java.net.URL;
 import java.net.MalformedURLException;
 
-import storage.TupleSB;
+import storage.Conjugation;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+/**
+ *  Class responsible to hold the verb conjugations.
+ *  Conjugations are stored in a {@link storage.Conjugation}.
+ */
 public class Verbo implements Serializable {
   private transient URL link = null;
-  private TupleSB verbo = null;
-  private TupleSB gerundio = null;
-  private TupleSB participioPassado = null;
-  private TupleSB[][] indicativo = null;
-  private TupleSB[][] conjuntivo = null;
-  private TupleSB[][] imperativo = null;
+  private Conjugation verbo = null;
+  private Conjugation gerundio = null;
+  private Conjugation participioPassado = null;
+  private Conjugation[][] indicativo = null;
+  private Conjugation[][] conjuntivo = null;
+  private Conjugation[][] imperativo = null;
   private Boolean flag = true;
   private static final String[] separadores = new String[] {" /", "&hArr;", "&asymp;"};
 
+  /**
+   * Class that acess the URL and stores the verb conjucations.
+   * @param verbo        Verb to be conjugated
+   */
   public Verbo(String verbo){
     BufferedReader reader;
     try{
@@ -31,9 +42,9 @@ public class Verbo implements Serializable {
 
       this.checkIfValid(reader);
 
-      this.verbo = new TupleSB();
+      this.verbo = new Conjugation();
       this.verbo.addConju(verbo, true);
-      TupleSB[] extract = this.findGerPar(reader);
+      Conjugation[] extract = this.findGerPar(reader);
       this.gerundio = extract[0];
       this.participioPassado = extract[1];
       extract = null;
@@ -43,45 +54,79 @@ public class Verbo implements Serializable {
       this.imperativo = this.findImperativos(reader);
 
     }catch(InvalidVerbException e){
-      this.verbo = new TupleSB();
+      this.verbo = new Conjugation();
       this.verbo.addConju(verbo, false);
       this.flag = false;
     }catch(MalformedURLException e){
       e.printStackTrace();
-      //TODO:Handle Erros
-
     }catch(IOException e){
-
       e.printStackTrace();
-      //TODO:Handle Erros
-
     }finally{
       reader = null;
     }
   }
 
+  /**
+   * Tests if the verb passed is valid
+   * @return Returns true if verb  is valid
+   */
   public Boolean isValid(){
     return this.flag;
   }
-  public TupleSB getVerbo(){
+
+  /**
+   * Returns the verb
+   * @return Tuple containing the verb
+   */
+  public Conjugation getVerbo(){
     return this.verbo;
   }
-  public TupleSB getGerundio(){
+
+  /**
+   * Returns verb's gerundio
+   * @return Tuple containing verb's gerundio
+   */
+  public Conjugation getGerundio(){
     return this.gerundio;
   }
-  public TupleSB getParticipioPassado(){
+
+  /**
+   * Returns verb's participio passado
+   * @return Tuple containing verb's participio passado
+   */
+  public Conjugation getParticipioPassado(){
     return this.participioPassado;
   }
-  public TupleSB[][] getIndicativo(){
+
+  /**
+   * Returns a list of verb's conjucations on indicativo
+   * @return Array of tuples with verb's conjucations
+   */
+  public Conjugation[][] getIndicativo(){
     return this.indicativo;
   }
-  public TupleSB[][] getConjuntivo(){
+
+ /**
+  * Returns a list of verb's conjucations on conjutivo
+  * @return Array of tuples with verb's conjucations
+  */
+  public Conjugation[][] getConjuntivo(){
     return this.conjuntivo;
   }
-  public TupleSB[][] getImperativo(){
+
+  /**
+   * Returns a list of verb's conjucations on imperativo
+   * @return Array of tuples with verb's conjucations
+   */
+  public Conjugation[][] getImperativo(){
     return this.imperativo;
   }
 
+  /**
+   * Checks if the verb is a valid verb
+   * @param reading      URL of verb page's
+   * @throws InvalidVerbException Exception thrown if verb was not a valid ver
+   */
   private void checkIfValid(BufferedReader reading) throws InvalidVerbException{
     String line = null;
 
@@ -102,12 +147,12 @@ public class Verbo implements Serializable {
     }
   }
 
-  private TupleSB[] findGerPar(BufferedReader reading){
+  private Conjugation[] findGerPar(BufferedReader reading){
     String line;
-    TupleSB[] ret = new TupleSB[2];
+    Conjugation[] ret = new Conjugation[2];
     try{
       line = walkOnFile(reading, "    <span class=\"gerundio\">Ger");
-      ret[0] = new TupleSB();
+      ret[0] = new Conjugation();
       for(String text : this.splitFromSeparadores(this.dropTdClass(line, "</span>(.*)</td>"))){
         if(text.contains("<span class=\"irreg\">")){
           ret[0].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
@@ -117,7 +162,7 @@ public class Verbo implements Serializable {
       }
 
       line = walkOnFile(reading, "    <span class=\"gerundio\">Partic");
-      ret[1] = new TupleSB();
+      ret[1] = new Conjugation();
       for(String text : this.splitFromSeparadores(this.dropTdClass(line, "</span>(.*)</td>"))){
         if(text.contains("<span class=\"irreg\">")){
           ret[1].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
@@ -136,15 +181,15 @@ public class Verbo implements Serializable {
     }
   }
 
-  private TupleSB[][] findIndicativos(BufferedReader reading){
-    TupleSB[][] verbos = new TupleSB[6][6];
+  private Conjugation[][] findIndicativos(BufferedReader reading){
+    Conjugation[][] verbos = new Conjugation[6][6];
     String line = null;
     int i, j;
     try{
       for(j = 0; j < 6; j++){
         for (i = 0; i < 3 ; i++) {
           line = walkOnFile(reading,"      <td class=\"output\">");
-          verbos[i][j] = new TupleSB();
+          verbos[i][j] = new Conjugation();
           for(String text : this.splitFromSeparadores(this.dropTdClass(line))){
             if(text.contains("<span class=\"irreg\">")){
               verbos[i][j].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
@@ -158,7 +203,7 @@ public class Verbo implements Serializable {
       for(j = 0; j < 6 ; j++){
         for (i = 3; i < 6; i++){
           line = walkOnFile(reading,"      <td class=\"output\">");
-          verbos[i][j] = new TupleSB();
+          verbos[i][j] = new Conjugation();
           for(String text : this.splitFromSeparadores(this.dropTdClass(line))){
             if(text.contains("<span class=\"irreg\">")){
               verbos[i][j].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
@@ -176,15 +221,15 @@ public class Verbo implements Serializable {
     return verbos;
   }
 
-  private TupleSB[][] findConjuntivos(BufferedReader reading){
-    TupleSB[][] verbos = new TupleSB[3][6];
+  private Conjugation[][] findConjuntivos(BufferedReader reading){
+    Conjugation[][] verbos = new Conjugation[3][6];
     String line = null;
     int i, j;
     try{
       for(j = 0; j < 6; j++) {
         for (i = 0; i < 3 ; i++) {
           line = walkOnFile(reading,"      <td class=\"output\">");
-          verbos[i][j] = new TupleSB();
+          verbos[i][j] = new Conjugation();
           for(String text : this.splitFromSeparadores(this.dropTdClass(line))){
             if(text.contains("<span class=\"irreg\">")){
               verbos[i][j].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
@@ -202,19 +247,19 @@ public class Verbo implements Serializable {
     return verbos;
   }
 
-  private TupleSB[][] findImperativos(BufferedReader reading){
-    TupleSB[][] verbos = null;
+  private Conjugation[][] findImperativos(BufferedReader reading){
+    Conjugation[][] verbos = null;
     String line = null;
     int i, j;
     int variationFix = 0;
     try{
-      verbos = new TupleSB[3][6];
-      verbos[0][0] = new TupleSB();
+      verbos = new Conjugation[3][6];
+      verbos[0][0] = new Conjugation();
       verbos[0][0].addConju("",true);
-      verbos[1][0] = new TupleSB();
+      verbos[1][0] = new Conjugation();
       verbos[1][0].addConju("",true);
       line = walkOnFile(reading,"      <td colspan=\"2\" class=\"output\" style=\"width: 33%; padding-left: 6%\"><span style=\"color: #2e4fe5;\">para </span> ");
-      verbos[2][0] = new TupleSB();
+      verbos[2][0] = new Conjugation();
       for(String text : this.splitFromSeparadores(this.dropTdClass(line, "<td.*</span>(.*)<span style="))){
         if(text.contains("<span class=\"irreg\">")){
           verbos[2][0].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
@@ -225,7 +270,7 @@ public class Verbo implements Serializable {
       for (i = 1; i < 6; i++) {
         /*Reading Afirmativo*/
         line = walkOnFile(reading,"      <td colspan=\"2\" class=\"output\"");
-        verbos[0][i] = new TupleSB();
+        verbos[0][i] = new Conjugation();
         for(String text : this.splitFromSeparadores(this.dropTdClass(line, "<td.*%\">(.*)<span style="))){
           if(text.contains("<span class=\"irreg\">")){
             verbos[0][i].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
@@ -235,7 +280,7 @@ public class Verbo implements Serializable {
         }
         /*Reading Negativo*/
         line = walkOnFile(reading,"      <td colspan=\"2\" class=\"output\"");
-        verbos[1][i] = new TupleSB();
+        verbos[1][i] = new Conjugation();
         for(String text : this.splitFromSeparadores(this.dropTdClass(line, "<td.*>.*<span style.*>n.o..?.?</span>(.*)<span style"))){
           if(text.contains("<span class=\"irreg\">")){
             verbos[1][i].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
@@ -246,7 +291,7 @@ public class Verbo implements Serializable {
 
         /*Reading Infinitivo Pessoal*/
         line = walkOnFile(reading,"      <td colspan=\"2\" class=\"output\"");
-        verbos[2][i] = new TupleSB();
+        verbos[2][i] = new Conjugation();
         for(String text : this.splitFromSeparadores(this.dropTdClass(line, "<td.*>(.*)<span style="))){
           if(text.contains("<span class=\"irreg\">")){
             verbos[2][i].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
