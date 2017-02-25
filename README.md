@@ -11,7 +11,7 @@
 
 ### Screenshots
 As conjugações do verbo aparecem em destaque
-![Verbo Programar](/images/VerboProgramar.png)
+![Verbo Programar](/imagens/VerboProgramar.png)
 
 Conjugações iregulares tem coloração diferente
-![Verbo Ir](/images/VerboIr.png)
+![Verbo Ir](/imagens/VerboIr.png)
