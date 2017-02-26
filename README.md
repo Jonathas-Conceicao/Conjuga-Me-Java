@@ -11,8 +11,8 @@
   Use *man conjugame* for more info.
 
 ### Screenshots
-Verbs's conjugations appear in highlighted
-![Verbo Programar](/imagens/VerboProgramar.png)
+  Verbs's conjugations appear in highlighted
+  ![Verbo Programar](/imagens/VerboProgramar.png)
 
-Irregular conjugations have different highlight.
-![Verbo Ir](/imagens/VerboIr.png)
+  Irregular conjugations have different highlight.
+  ![Verbo Ir](/imagens/VerboIr.png)
