@@ -26,17 +26,31 @@ DOC = docs
 RM = rm
 RM_FLAG = -rf
 
+BIN_LOCATION ?= .
+JAR_LOCATION ?= .
+
+MV = mv
+
 all:
 	$(JAVAC) $(JC_FLAG) $(addprefix $(SRC)/, $(addsuffix .java, $(P_PRINTER) $(P_INTERPRETER) $(P_STORAGE) $(P_CONJUGAME))) -d $(BIN)/
 
 clean:
 	$(RM) $(RM_FLAG) $(BIN)/*/*.class
-	$(RM) $(RM_FLAG) $(BIN)/*.ser
-	$(RM) $(RM_FLAG) $(DOC)/*
-	$(RM) $(TARGET).jar
+
+cleanTarget:
+	$(RM) $(RM_FLAG) $(TARGET)*
 
 doc: $(addprefix $(BIN)/, $(addsuffix .class, $(P_CONJUGAME) ) ) $(addprefix $(BIN)/, $(addsuffix .class, $(P_PRINTER) $(P_INTERPRETER) $(P_STORAGE)) )
 	$(JD) $(JD_FLAG) -d $(DOC)/
 
+cleanDoc:
+	$(RM) $(RM_FLAG) $(DOC)/*
+
 jar:
-	cd $(BIN);$(JR) $(JR_FLAG) $(JR_MANIFEST) $(TARGET).jar $(addsuffix .class, $(P_CONJUGAME) $(P_PRINTER) $(P_INTERPRETER) $(P_STORAGE) );mv $(TARGET).jar ..
+	cd $(BIN); \
+	$(JR) $(JR_FLAG) $(JR_MANIFEST) $(TARGET).jar $(addsuffix .class, $(P_CONJUGAME) $(P_PRINTER) $(P_INTERPRETER) $(P_STORAGE) ); \
+	$(MV) $(TARGET).jar ..
+
+install:
+	$(MV) $(TARGET) $(BIN_LOCATION)/$(TARGET)
+	$(MV) $(TARGET).jar $(JAR_LOCATION)/Jar/$(TARGET).jar
