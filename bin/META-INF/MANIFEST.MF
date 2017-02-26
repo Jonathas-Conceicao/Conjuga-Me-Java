@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Created-By: Jonathas Conceição #github.com/Jonathas-Conceicao
+Main-Class: conjugame.Main
