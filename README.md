@@ -10,8 +10,8 @@
   Call the executable and pass the verbs you want to get the conjugations from. Use *man conjugame* for more info.
 
 ### Screenshots
-As conjugações do verbo aparecem em destaque
+Verbs's conjugations appear in highlighted
 ![Verbo Programar](/imagens/VerboProgramar.png)
 
-Conjugações iregulares tem coloração diferente
+Irregular conjugations have different highlight.
 ![Verbo Ir](/imagens/VerboIr.png)
