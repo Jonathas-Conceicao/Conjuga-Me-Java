@@ -19,6 +19,8 @@ JR_FLAG = cmvf
 JR_MANIFEST = META-INF/MANIFEST.MF
 TARGET = conjugame
 
+MAN_FILE = conjugame.1
+
 SRC = src
 BIN = bin
 DOC = docs
@@ -28,7 +30,7 @@ RM_FLAG = -rf
 
 BIN_LOCATION ?= .
 JAR_LOCATION ?= .
-
+MAN_LOCATION ?= /usr/local/share/man/man1
 MV = mv
 
 all:
@@ -54,3 +56,4 @@ jar:
 install:
 	$(MV) $(TARGET) $(BIN_LOCATION)/$(TARGET)
 	$(MV) $(TARGET).jar $(JAR_LOCATION)/Jar/$(TARGET).jar
+	$(MV) $(MAN_FILE) $(MAN_LOCATION)/$(MAN_FILE)

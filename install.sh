@@ -2,18 +2,23 @@ set -e
 
 read -n 1 -p "Change default (/opt/bin) binary location?(y/N)?" choice
 echo
-
 case "$choice" in
-  y|Y ) read -p "Binary location:" BIN_LOCATION;echo;;
+  y|Y ) read -p "Binary location:" BIN_LOCATION; echo;;
   * ) export BIN_LOCATION='/opt/bin';;
 esac
 
 read -n 1 -p "Change default (/opt/ConjugaMe) instalation folder?(y/N)?" choice
 echo
-
 case "$choice" in
-  y|Y ) read -p "Instalation folder:" JAR_LOCATION;echo;;
+  y|Y ) read -p "Instalation folder:" JAR_LOCATION; echo;;
   * ) export JAR_LOCATION='/opt/ConjugaMe';;
+esac
+
+read -n 1 -p "Change default (/usr/local/share/man/man1) manual folder?(y/N)?" choice
+echo
+case "$choice" in
+  y|Y ) read -p "Manual folder:" MAN_LOCATION; echo;;
+  * ) export MAN_LOCATION='/usr/local/share/man/man1';;
 esac
 echo
 
@@ -28,7 +33,7 @@ echo
 echo "## Making executable ##"
 sed 's|PROGRAM_FOLDER|'"$JAR_LOCATION"'|g' < executable_sample.sh > conjugame
 echo "executable created under the name 'conjugame'"
-chmod +x conjugame
+chmod 777 conjugame
 echo
 
 echo "## Installing ##"
