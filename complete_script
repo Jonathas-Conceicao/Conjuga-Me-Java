@@ -4,7 +4,8 @@ _conjugame()
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts="-Indicativo -Conjuntivo -Imperativo --Single --Double --Triple"
+    opts="-Indicativo -Conjuntivo -Imperativo --Single --Triple"
+    # opts="-Indicativo -Conjuntivo -Imperativo --Single --Double --Triple"
     case "$cur" in
         -* )
         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) ) ;;

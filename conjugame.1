@@ -3,7 +3,7 @@
 conjugame \- show portuguese's verbs conjugations
 .SH SYNOPSIS
 .B conjugame
-[\fIDisplay Options\fR]
+[\fIDisplay Option\fR]
 [\fIConjugation Mode\fR]
 \fIVerb(s)\fR
 .SH DESCRIPTION
@@ -12,11 +12,11 @@ while unregular conjugations will be shown in red. Verbs should be passed in inf
 .PP
 Multiple accpetable conjugations will be displayed separeted by a slash(/)
 .SH OPTIONS
-\fIDisplay\fR \fIOptions\fR
+\fIDisplay\fR \fIOption\fR
   Tells the program the number of colums to display output
-    \fB--Colums=Single\fR
-    \fB--Colums=Double\fR
-    \fB--Colums=Triple\fR
+    \fB--Single\fR
+.\" \fB--Double\fR
+    \fB--Triple\fR
 .PP
 \fIConjugation\fR \fIMode\fR
   Tells the program the mode to conjugate the verb
@@ -40,6 +40,6 @@ This will show only imperative conjugations for verb \fIir\fR in one colum.
 .PP
 .nf
 .RS
-\fBconjugame --Colum=Single -Imperativo\fR ir
+\fBconjugame --Single -Imperativo\fR ir
 .RE
 .fi
