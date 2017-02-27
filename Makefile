@@ -21,6 +21,7 @@ JR_MANIFEST = META-INF/MANIFEST.MF
 TARGET = conjugame
 
 MAN_FILE = conjugame.1
+COMPLETE_FILE = complete_conjugame
 
 SRC = src
 BIN = bin
@@ -31,8 +32,10 @@ RM_FLAG = -rf
 
 BIN_LOCATION ?= .
 JAR_LOCATION ?= .
-MAN_LOCATION ?= /usr/local/share/man/man1
+MAN_LOCATION ?= .
+AUTO_COMPLETE_LOCATION ?= .
 MV = mv
+CP = cp
 
 all:
 	$(JAVAC) $(JC_FLAG) $(addprefix $(SRC)/, $(addsuffix .java, $(P_PRINTER) $(P_INTERPRETER) $(P_STORAGE) $(P_CONJUGAME))) -d $(BIN)/
@@ -56,5 +59,6 @@ jar:
 
 install:
 	$(MV) $(TARGET) $(BIN_LOCATION)/$(TARGET)
-	$(MV) $(TARGET).jar $(JAR_LOCATION)/Jar/$(TARGET).jar
-	$(MV) $(MAN_FILE) $(MAN_LOCATION)/$(MAN_FILE)
+	$(MV) $(TARGET).jar $(JAR_LOCATION)/.Jar/$(TARGET).jar
+	$(CP) $(MAN_FILE) $(MAN_LOCATION)/$(TARGET).1
+	$(MV) $(COMPLETE_FILE) $(AUTO_COMPLETE_LOCATION)/$(TARGET)
