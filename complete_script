@@ -1,17 +1,16 @@
 _conjugame()
 {
-    local cur prev opts
+    local cur prev opts opts2
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts="-Indicativo -Conjuntivo -Imperativo --Colums=Single --Colums=Double --Colums=Triple"
-
-    if [[ ${cur} == -* ]] ; then
-        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-        return 0
-    else
-        COMPREPLY=( $(compgen -W "$(ls PROGRAM_FOLDER)" -- $cur) )
-        return 0
-    fi
+    opts="-Indicativo -Conjuntivo -Imperativo --Single --Double --Triple"
+    case "$cur" in
+        -* )
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) ) ;;
+        * )
+        COMPREPLY=( $(compgen -W "$(ls PROGRAM_FOLDER)" -- $cur) ) ;;
+    esac
+    return 0
 }
 complete -F _conjugame conjugame

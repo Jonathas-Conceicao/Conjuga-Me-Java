@@ -14,9 +14,9 @@ public class Main{
   /*Input commands*/
 
   //Number of colums to be displayed
-  private static final String SINGLECOLUM = "--Colum=Single";
-  private static final String DOUBLECOLUM = "--Colum=Double";
-  private static final String TRIPLECOLUM = "--Colum=Triple";
+  private static final String SINGLECOLUM = "--Single";
+  private static final String DOUBLECOLUM = "--Double";
+  private static final String TRIPLECOLUM = "--Triple";
 
   private static final String INDICATIVO = "-Indicativo";
   private static final String CONJUNTIVO = "-Conjuntivo";
@@ -51,7 +51,7 @@ public class Main{
         Linux out = new Linux(verb);
         out.print(colums, options);
       }catch(InvalidDisplayOptionException e){
-        System.err.println("Invalid option entred\nSee 'man conjugame' for help");
+        System.err.println("Invalid option entred: " + e.getMessage() + "\nSee 'man conjugame' for help");
       }
     }
     return;
@@ -80,7 +80,7 @@ public class Main{
       else if(command.contains(Main.IMPERATIVO))
         actions.add(3);
       else
-        throw new InvalidDisplayOptionException();
+        throw new InvalidDisplayOptionException(command);
     }
     if (actions.isEmpty()) {
       actions.add(1);
