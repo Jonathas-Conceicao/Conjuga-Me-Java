@@ -42,7 +42,7 @@ public class VerboStorage{
     FileOutputStream fileOut = null;
     ObjectOutputStream out = null;
     try{
-      fileOut = new FileOutputStream(this.path + v.getVerbo().getFirst(0) + ".ser");
+      fileOut = new FileOutputStream(this.path + v.getVerbo().getFirst(0));
       out = new ObjectOutputStream(fileOut);
       out.writeObject(v);
       out.close();
@@ -64,7 +64,7 @@ public class VerboStorage{
     FileInputStream fileIn = null;
     ObjectInputStream in = null;
     try{
-      fileIn = new FileInputStream(this.path + v + ".ser");
+      fileIn = new FileInputStream(this.path + v);
       in = new ObjectInputStream(fileIn);
       verbo = (Verbo) in.readObject();
 
@@ -88,7 +88,7 @@ public class VerboStorage{
    * @return true if file exists
    */
   public Boolean exists(String v){
-    File f = new File(this.path + v + ".ser");
+    File f = new File(this.path + v);
     return f.exists() && !f.isDirectory();
   }
 }

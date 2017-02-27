@@ -71,7 +71,9 @@ public class Main{
     int indice = 0;
     ArrayList<Integer> actions = new ArrayList<Integer>(3);
     for(String command : commands){
-      if(command.contains(Main.INDICATIVO))
+      if (command.contains(Main.SINGLECOLUM) || command.contains(Main.DOUBLECOLUM) || command.contains(Main.TRIPLECOLUM))
+        ;
+      else if(command.contains(Main.INDICATIVO))
         actions.add(1);
       else if(command.contains(Main.CONJUNTIVO))
         actions.add(2);
