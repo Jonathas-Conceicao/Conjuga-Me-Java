@@ -1,4 +1,5 @@
-P_PRINTER = printer/Linux
+P_PRINTER = printer/Linux \
+						printer/InvalidDisplayOptionException
 
 P_INTERPRETER = interpreter/InvalidVerbException \
 								interpreter/Verbo
@@ -9,7 +10,7 @@ P_STORAGE = storage/Conjugation \
 P_CONJUGAME = conjugame/Main
 
 JAVAC = javac
-JC_FLAG =
+JC_FLAG = -Xlint:all
 
 JD = javadoc
 JD_FLAG = -Xdoclint:all

@@ -28,6 +28,7 @@ public class Verbo implements Serializable {
   private Conjugation[][] imperativo = null;
   private Boolean flag = true;
   private static final String[] separadores = new String[] {" /", "&hArr;", "&asymp;"};
+  private static final long serialVersionUID = 1842;
 
   /**
    * Class that acess the URL and stores the verb conjucations.
@@ -177,8 +178,8 @@ public class Verbo implements Serializable {
 
     }finally{
       line = null;
-      return ret;
     }
+    return ret;
   }
 
   private Conjugation[][] findIndicativos(BufferedReader reading){
@@ -255,9 +256,9 @@ public class Verbo implements Serializable {
     try{
       verbos = new Conjugation[3][6];
       verbos[0][0] = new Conjugation();
-      verbos[0][0].addConju("",true);
+      verbos[0][0].addConju("--",false);
       verbos[1][0] = new Conjugation();
-      verbos[1][0].addConju("",true);
+      verbos[1][0].addConju("--",false);
       line = walkOnFile(reading,"      <td colspan=\"2\" class=\"output\" style=\"width: 33%; padding-left: 6%\"><span style=\"color: #2e4fe5;\">para </span> ");
       verbos[2][0] = new Conjugation();
       for(String text : this.splitFromSeparadores(this.dropTdClass(line, "<td.*</span>(.*)<span style="))){
@@ -340,7 +341,7 @@ public class Verbo implements Serializable {
   private ArrayList<String> splitFromSeparadores(String text){
     ArrayList<String> ret = new ArrayList<String>(2);
     Boolean flag = true;
-    for(String s: this.separadores){
+    for(String s: Verbo.separadores){
       if (text.contains(s)) {
         for(String ss: text.split(s)){
           ret.add(ss);

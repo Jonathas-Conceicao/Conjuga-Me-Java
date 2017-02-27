@@ -3,12 +3,43 @@
 conjugame \- show portuguese's verbs conjugations
 .SH SYNOPSIS
 .B conjugame
-[\fIVerb(s)\fR]
+[\fIDisplay Options\fR]
+[\fIConjugation Mode\fR]
+\fIVerb(s)\fR
 .SH DESCRIPTION
 Displays portuguese's verbs conjugations on terminal. Regular conjugation will be displayed in cyan,
-while unregular conjugations will be shown in red.
-
+while unregular conjugations will be shown in red. Verbs should be passed in infinitive form.
+.PP
 Multiple accpetable conjugations will be displayed separeted by a slash(/)
 .SH OPTIONS
-.BR \fBVerb(s)\fR
-  One or more verbs in infinitive form to be conjugated.
+\fIDisplay\fR \fIOptions\fR
+  Tells the program the number of colums to display output
+    \fB--Colums=Single\fR
+    \fB--Colums=Double\fR
+    \fB--Colums=Triple\fR
+.PP
+\fIConjugation\fR \fIMode\fR
+  Tells the program the mode to conjugate the verb
+    \fB-Indicativo\fR
+    \fB-Conjuntivo\fR
+    \fB-Imperativo\fR
+.PP
+\fIVerb(s)\fR
+  One or more \fBverbs\fR in infinitive form to be conjugated.
+
+.SH EXAMPLES
+This will show all conjugations for verb \fIprogramar\fR in three colums.
+.PP
+.nf
+.RS
+\fBconjugame\fR programar
+.RE
+.fi
+.PP
+This will show only imperative conjugations for verb \fIir\fR in one colum.
+.PP
+.nf
+.RS
+\fBconjugame --Colum=Single -Imperativo\fR ir
+.RE
+.fi

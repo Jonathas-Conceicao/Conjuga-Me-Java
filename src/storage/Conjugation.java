@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Conjugation implements Serializable{
   private ArrayList<String>  fst = null;
   private ArrayList<Boolean> snd = null;
+  private static final long serialVersionUID = 1842;
 
   /**
    * Constructor method.
