@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 set -e
 
@@ -49,7 +49,7 @@ echo
 echo "## Installing ##"
 if [ ! -d "$JAR_LOCATION"/.Jar ]; then
   echo "Creating directory for program's files"
-  mkdir --parent "$JAR_LOCATION"/Jar
+  mkdir --parent "$JAR_LOCATION"/.Jar
 fi
 if [ ! -d "$BIN_LOCATION" ]; then
   echo "Creating directory for program's binary"
