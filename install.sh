@@ -1,3 +1,5 @@
+#! /bin/bash
+
 set -e
 
 read -n 1 -p "Change default (/opt/bin) binary location?(y/N)?" choice

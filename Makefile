@@ -1,3 +1,5 @@
+SHELL = /bin/bash
+
 P_PRINTER = printer/Linux \
 						printer/InvalidDisplayOptionException
 
@@ -11,6 +13,7 @@ P_CONJUGAME = conjugame/Main
 
 JAVAC = javac
 JC_FLAG = -Xlint:all
+CLASSPATH = 
 
 JD = javadoc
 JD_FLAG = -Xdoclint:all
