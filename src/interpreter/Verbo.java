@@ -156,7 +156,7 @@ public class Verbo implements Serializable {
       ret[0] = new Conjugation();
       for(String text : this.splitFromSeparadores(this.dropTdClass(line, "</span>(.*)</td>"))){
         if(text.contains("<span class=\"irreg\">")){
-          ret[0].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+          ret[0].addConju(text.replaceAll("<span class=\"defect\" style=\"\">", "").replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
         }else{
           ret[0].addConju(text.replaceAll(" ", ""),false);
         }
@@ -166,7 +166,7 @@ public class Verbo implements Serializable {
       ret[1] = new Conjugation();
       for(String text : this.splitFromSeparadores(this.dropTdClass(line, "</span>(.*)</td>"))){
         if(text.contains("<span class=\"irreg\">")){
-          ret[1].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+          ret[1].addConju(text.replaceAll("<span class=\"defect\" style=\"\">", "").replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
         }else{
           ret[1].addConju(text.replaceAll(" ", ""),false);
         }
@@ -193,7 +193,7 @@ public class Verbo implements Serializable {
           verbos[i][j] = new Conjugation();
           for(String text : this.splitFromSeparadores(this.dropTdClass(line))){
             if(text.contains("<span class=\"irreg\">")){
-              verbos[i][j].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+              verbos[i][j].addConju(text.replaceAll("<span class=\"defect\" style=\"\">", "").replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
             }else{
               verbos[i][j].addConju(text.replaceAll(" ", ""),false);
             }
@@ -207,7 +207,7 @@ public class Verbo implements Serializable {
           verbos[i][j] = new Conjugation();
           for(String text : this.splitFromSeparadores(this.dropTdClass(line))){
             if(text.contains("<span class=\"irreg\">")){
-              verbos[i][j].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+              verbos[i][j].addConju(text.replaceAll("<span class=\"defect\" style=\"\">", "").replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
             }else{
               verbos[i][j].addConju(text.replaceAll(" ", ""),false);
             }
@@ -233,7 +233,7 @@ public class Verbo implements Serializable {
           verbos[i][j] = new Conjugation();
           for(String text : this.splitFromSeparadores(this.dropTdClass(line))){
             if(text.contains("<span class=\"irreg\">")){
-              verbos[i][j].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+              verbos[i][j].addConju(text.replaceAll("<span class=\"defect\" style=\"\">", "").replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
             }else{
               verbos[i][j].addConju(text.replaceAll(" ", ""),false);
             }
@@ -263,7 +263,7 @@ public class Verbo implements Serializable {
       verbos[2][0] = new Conjugation();
       for(String text : this.splitFromSeparadores(this.dropTdClass(line, "<td.*</span>(.*)<span style="))){
         if(text.contains("<span class=\"irreg\">")){
-          verbos[2][0].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+          verbos[2][0].addConju(text.replaceAll("<span class=\"defect\" style=\"\">", "").replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
         }else{
           verbos[2][0].addConju(text.replaceAll(" ", ""),false);
         }
@@ -274,7 +274,7 @@ public class Verbo implements Serializable {
         verbos[0][i] = new Conjugation();
         for(String text : this.splitFromSeparadores(this.dropTdClass(line, "<td.*%\">(.*)<span style="))){
           if(text.contains("<span class=\"irreg\">")){
-            verbos[0][i].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+            verbos[0][i].addConju(text.replaceAll("<span class=\"defect\" style=\"\">", "").replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
           }else{
             verbos[0][i].addConju(text.replaceAll(" ", ""),false);
           }
@@ -284,7 +284,7 @@ public class Verbo implements Serializable {
         verbos[1][i] = new Conjugation();
         for(String text : this.splitFromSeparadores(this.dropTdClass(line, "<td.*>.*<span style.*>n.o..?.?</span>(.*)<span style"))){
           if(text.contains("<span class=\"irreg\">")){
-            verbos[1][i].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+            verbos[1][i].addConju(text.replaceAll("<span class=\"defect\" style=\"\">", "").replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
           }else{
             verbos[1][i].addConju(text.replaceAll(" ", ""),false);
           }
@@ -295,7 +295,7 @@ public class Verbo implements Serializable {
         verbos[2][i] = new Conjugation();
         for(String text : this.splitFromSeparadores(this.dropTdClass(line, "<td.*>(.*)<span style="))){
           if(text.contains("<span class=\"irreg\">")){
-            verbos[2][i].addConju(text.replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
+            verbos[2][i].addConju(text.replaceAll("<span class=\"defect\" style=\"\">", "").replaceAll("<span class=\"irreg\">", "").replaceAll("</span>", "").replaceAll(" ", ""),true);
           }else{
             verbos[2][i].addConju(text.replaceAll(" ", ""),false);
           }
