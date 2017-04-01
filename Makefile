@@ -13,7 +13,7 @@ P_CONJUGAME = conjugame/Main
 
 JAVAC = javac
 JC_FLAG = -Xlint:all
-CLASSPATH = 
+CLASSPATH =
 
 JD = javadoc
 JD_FLAG = -Xdoclint:all
@@ -38,7 +38,9 @@ JAR_LOCATION ?= .
 MAN_LOCATION ?= .
 AUTO_COMPLETE_LOCATION ?= .
 MV = mv
+MV_FLAG = -u
 CP = cp
+CP_FLAG = -u
 
 all:
 	$(JAVAC) $(JC_FLAG) $(addprefix $(SRC)/, $(addsuffix .java, $(P_PRINTER) $(P_INTERPRETER) $(P_STORAGE) $(P_CONJUGAME))) -d $(BIN)/
@@ -61,7 +63,7 @@ jar:
 	$(MV) $(TARGET).jar ..
 
 install:
-	$(MV) $(TARGET) $(BIN_LOCATION)/$(TARGET)
-	$(MV) $(TARGET).jar $(JAR_LOCATION)/.Jar/$(TARGET).jar
-	$(CP) $(MAN_FILE) $(MAN_LOCATION)/$(TARGET).1
-	$(MV) $(COMPLETE_FILE) $(AUTO_COMPLETE_LOCATION)/$(TARGET)
+	$(MV) $(MV_FLAG) $(TARGET) $(BIN_LOCATION)/$(TARGET) || true
+	$(MV) $(MV_FLAG) $(TARGET).jar $(JAR_LOCATION)/.Jar/$(TARGET).jar || true
+	$(CP) $(CP_FLAG) $(MAN_FILE) $(MAN_LOCATION)/$(TARGET).1 || true
+	$(MV) $(MV_FLAG) $(COMPLETE_FILE) $(AUTO_COMPLETE_LOCATION)/$(TARGET)

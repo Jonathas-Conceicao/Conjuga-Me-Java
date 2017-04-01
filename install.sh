@@ -50,6 +50,7 @@ echo "## Installing ##"
 if [ ! -d "$JAR_LOCATION"/.Jar ]; then
   echo "Creating directory for program's files"
   mkdir --parent "$JAR_LOCATION"/.Jar
+  mkdir 666 $JAR_LOCATION
 fi
 if [ ! -d "$BIN_LOCATION" ]; then
   echo "Creating directory for program's binary"
@@ -76,4 +77,4 @@ echo
 
 echo "All done!"
 echo -e "Run 'conjugame \e[4mverb on infinitive form\e[0m'"
-echo "Run 'man conjugame' for more details"
+echo "Run 'man conjugame' for details"
