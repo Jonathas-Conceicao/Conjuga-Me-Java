@@ -41,7 +41,7 @@ public class Verbo implements Serializable {
 
       reader = new BufferedReader(new InputStreamReader(link.openStream(), "ISO-8859-1"));
 
-      this.checkIfValid(reader);
+      this.checkIfValid(reader, verbo);
 
       this.verbo = new Conjugation();
       this.verbo.addConju(verbo, true);
@@ -128,21 +128,20 @@ public class Verbo implements Serializable {
    * @param reading      URL of verb page's
    * @throws InvalidVerbException Exception thrown if verb was not a valid ver
    */
-  private void checkIfValid(BufferedReader reading) throws InvalidVerbException{
+  private void checkIfValid(BufferedReader reading, String verbo) throws InvalidVerbException{
     String line = null;
 
     try{
       walkOnFile(reading, "</div><!-- #formverbo -->");
-      line = reading.readLine();
-      line = reading.readLine();
-      line = reading.readLine();
-      if (!line.startsWith("<table")) {
-        throw new InvalidVerbException();
-      }
+      do{
+        line = reading.readLine();
+      }while(!line.matches(".*<h1>.*Verbo.*"));
     }catch(IOException e){
       e.printStackTrace();
       //TODO:Handle Erros
 
+    }catch(NullPointerException e){ //Null Pointer thrown if EOF is reached.
+      throw new InvalidVerbException();
     }finally{
       line = null;
     }
