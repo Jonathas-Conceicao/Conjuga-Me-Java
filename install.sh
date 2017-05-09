@@ -50,7 +50,7 @@ echo "## Installing ##"
 if [ ! -d "$JAR_LOCATION"/.Jar ]; then
   echo "Creating directory for program's files"
   mkdir --parent "$JAR_LOCATION"/.Jar
-  chmod 666 $JAR_LOCATION
+  chmod 775 $JAR_LOCATION
 fi
 if [ ! -d "$BIN_LOCATION" ]; then
   echo "Creating directory for program's binary"
